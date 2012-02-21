@@ -14,6 +14,7 @@ class Events extends Public_Controller {
     {
         parent::__construct();
         $this->load->helper('event');
+        $this->lang->load('events');
     }
 
     // --------------------------------------------------------------------
@@ -158,10 +159,6 @@ class Events extends Public_Controller {
             'page'      => $page
         );
         $result = Event::paginated($config);
-        if ( ! $result->events)
-        {
-            show_404();
-        }
         // setup pagination
         $segments = $this->uri->segment_array();
         if ($key = array_search('page', $segments))
@@ -222,7 +219,8 @@ class Events extends Public_Controller {
         }
 
         // init calendar
-        $this->load->library('calendar');
+        $this->config->load('event_calendar', TRUE);
+        $this->load->library('calendar', config_item('event_calendar'));
         $cal_data = array();
         foreach ($days as $day => $events)
         {
@@ -241,4 +239,4 @@ class Events extends Public_Controller {
 
 }
 /* End of file events.php */
-/* Location: ./application/controllers/events.php */
+/* Location: ./third_party/controllers/events.php */

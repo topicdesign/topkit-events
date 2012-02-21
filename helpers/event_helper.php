@@ -116,4 +116,4 @@ if ( ! function_exists('event_timespan'))
 // --------------------------------------------------------------------
 
 /* End of file event_helper.php */
-/* Location: ./helpers/event_helper.php */
+/* Location: ./third_party/helpers/event_helper.php */
