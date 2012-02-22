@@ -70,3 +70,6 @@ class Migration_events_init extends CI_Migration
         $this->dbforge->drop_table('events');
     }
 }
+
+/* End of file 001_events_init.php */
+/* Location: ./third_party/events/migrations/001_events_init.php */

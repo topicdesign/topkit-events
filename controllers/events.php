@@ -15,6 +15,7 @@ class Events extends Public_Controller {
         parent::__construct();
         $this->load->helper('event');
         $this->lang->load('events');
+        $this->config->load('events');
     }
 
     // --------------------------------------------------------------------
@@ -150,7 +151,7 @@ class Events extends Public_Controller {
                 break;
         }
         // get a page of articles 
-        $per_page = 3;
+        $per_page = config_item('per_page');
         $config = array(
             'start' => $start,
             'end'   => $end,
@@ -239,4 +240,4 @@ class Events extends Public_Controller {
 
 }
 /* End of file events.php */
-/* Location: ./third_party/controllers/events.php */
+/* Location: ./third_party/events/controllers/events.php */

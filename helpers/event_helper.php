@@ -22,7 +22,9 @@ if ( ! function_exists('get_events_url'))
 {
     function get_events_url()
     {
-        return 'events';
+        $CI = get_instance();
+        $CI->config->load('events');
+        return config_item('events_url');
     }
 }
 
@@ -40,7 +42,7 @@ if ( ! function_exists('get_calendar_url'))
 {
     function get_calendar_url()
     {
-        return get_events_url() . '/calendar/';
+        return get_events_url() . config_item('calendar_url');
     }
 }
 
@@ -116,4 +118,4 @@ if ( ! function_exists('event_timespan'))
 // --------------------------------------------------------------------
 
 /* End of file event_helper.php */
-/* Location: ./third_party/helpers/event_helper.php */
+/* Location: ./third_party/events/helpers/event_helper.php */
