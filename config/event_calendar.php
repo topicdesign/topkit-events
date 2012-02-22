@@ -45,4 +45,4 @@ $config['template'] = '
 ';
 
 /* End of file calendar.php */
-/* Location: ./third_party/config/calendar.php */
+/* Location: ./third_party/events/config/calendar.php */

@@ -276,4 +276,4 @@ CREATE TABLE `events` (
 **/
 
 /* End of file Event.php */
-/* Location: ./third_party/models/Event.php */
+/* Location: ./third_party/events/models/Event.php */
