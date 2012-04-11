@@ -6,6 +6,11 @@
  */
 
 /*
+ * Title for paginated event page
+ */
+$config['event_index_title'] = 'Events';
+
+/*
  * URI string used for events 
  */
 $config['events_url'] = 'events';
