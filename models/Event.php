@@ -24,6 +24,13 @@ class Event extends ActiveRecord\Model {
     // --------------------------------------------------------------------
     // Associations
     // --------------------------------------------------------------------
+
+    static $belongs_to = array(
+        array(
+            'category',
+            'class_name' => 'Event\Category'
+        )
+    );
     
     // --------------------------------------------------------------------
     // Validations
