@@ -54,17 +54,23 @@ class Events extends Public_Controller {
                 : 1;
             $params = array_slice($params, 0, $page_key);
         }
-        // params shoud now be (YYYY,MM,DD,title)
-        if (count($params) == 4)
+        // params should now be (YYYY,MM,DD,title)
+        if (count($params) == 4 && is_numeric($params[0]))
         {
             return $this->view($params);
+        }
+        //check for category
+        $categories = array();
+        if ( ! is_numeric($params[0]) && $params[0] != 'index') 
+        {
+            $categories[] = array_shift($params); 
         }
         // clear params if default method call
         if ( ! empty($params) && $params[0] == 'index')
         {
             $params = array();
         }
-        return $this->paginated($page, $params);
+        return $this->paginated($categories, $params, $page);
     }
 
     // --------------------------------------------------------------------
@@ -95,9 +101,36 @@ class Events extends Public_Controller {
         }
         $data['event'] = $event;
 
-        $this->template
-            ->title($event->title, 'Events', config_item('site_title')) 
+        $this->document
+            ->title(array($event->title, 'Events', config_item('site_title'))) 
             ->build('events/event_view.php', $data);
+    }
+
+    // --------------------------------------------------------------------
+
+    /**
+     * categories
+     *
+     * @access  public 
+     * 
+     * @return void
+     **/
+    public function categories()
+    {   
+        $params = $this->uri->segment_array();
+        array_shift($params);
+        $page = 1;
+        $page_key = array_search('page', $params);
+        if ($page_key !== FALSE)
+        {
+            $page = isset($params[$page_key + 1])
+                ? $params[$page_key + 1]
+                : 1;
+            $params = array_slice($params, 0, $page_key);
+        }
+        $cat_key = array_search(config_item('event_categories_url'),$params);
+        $categories = array_slice($params,$cat_key+1);
+        $this->paginated($categories,array(),$page);
     }
 
     // --------------------------------------------------------------------
@@ -106,22 +139,23 @@ class Events extends Public_Controller {
      * get an page of events to display as an index
      *
      * @access  private
+     * @param   array       $categories list of categories to show
+     * @param   array       $dates     passed params
      * @param   string      $page       page number
-     * @param   array       $params     passed params
      *
      * @return  void
      **/
-    private function paginated($page, $params)
+    private function paginated($categories, $dates = array(), $page = 1)
     {
         $TZ = new DateTimeZone(config_item('site_timezone'));
         // set date limits based on params
         $title_segments = array('Events', config_item('site_title')); 
-        switch (count($params))
+        switch (count($dates))
         {
             case 1:
                 // limit by year
-                $params += array(1,1);
-                $start = date_create(implode('-', $params), $TZ);
+                $dates += array(1,1);
+                $start = date_create(implode('-', $dates), $TZ);
                 $end = clone $start;
                 $end->modify('+1 year');
                 
@@ -129,8 +163,8 @@ class Events extends Public_Controller {
                 break;
             case 2:
                 // limit by month
-                $params += array(1);
-                $start = date_create(implode('-', $params), $TZ);
+                $dates += array(1);
+                $start = date_create(implode('-', $dates), $TZ);
                 $end = clone $start;
                 $end->modify('+1 month');
 
@@ -138,7 +172,7 @@ class Events extends Public_Controller {
                 break;
             case 3:
                 // limit by day
-                $start = date_create(implode('-', $params), $TZ);
+                $start = date_create(implode('-', $dates), $TZ);
                 $end = clone $start;
                 $end->modify('+1 day');
 
@@ -157,7 +191,8 @@ class Events extends Public_Controller {
             'end'   => $end,
             'published' => cannot('manage', 'event'),
             'per_page'  => $per_page,
-            'page'      => $page
+            'page'      => $page,
+            'categories'  => $categories
         );
         $result = Event::paginated($config);
         // setup pagination
@@ -177,13 +212,12 @@ class Events extends Public_Controller {
         $this->pagify->initialize($config);
         // output the index
         $data = array(
-            'events' => $result->events
+            'events' => $result->events,
+            'categories' => $categories                
         );
         // set title from prepared segments
-        call_user_func_array(array($this->template, 'title'), $title_segments);
-        $this->template
-            //->title($title_segments)
-            ->build('events/events_index.php', $data);
+        call_user_func_array(array($this->document, 'title'), $title_segments);
+        $this->document->build('events/events_index.php', $data);
     }
 
     // --------------------------------------------------------------------
@@ -231,8 +265,8 @@ class Events extends Public_Controller {
             'cal_data'  => $cal_data,
             'date'      => $month
         );
-        $this->template
-            ->title($month->format('F, Y'), 'Events', config_item('site_title'))
+        $this->document
+            ->title(array($month->format('F, Y'), 'Events', config_item('site_title')))
             ->build('events/calendar', $data);
     }
 

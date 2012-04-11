@@ -24,10 +24,31 @@ class Event extends ActiveRecord\Model {
     // --------------------------------------------------------------------
     // Associations
     // --------------------------------------------------------------------
+
+    static $belongs_to = array(
+        array(
+            'category',
+            'class_name' => 'Event\Category'
+        )
+    );
     
     // --------------------------------------------------------------------
     // Validations
     // --------------------------------------------------------------------
+    
+    static $validates_presence_of = array(
+        array('title'),
+        array('slug')
+    );
+
+    static $validates_length_of = array(
+        array('title','maximum' => 120),
+        array('slug','maximum' => 120)
+    );
+
+    static $validates_uniqueness_of = array(
+        array('slug')
+    );
     
     // --------------------------------------------------------------------
     // Setter/Getter Methods
