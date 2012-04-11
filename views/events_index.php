@@ -1,6 +1,6 @@
 <section id="events-index">
     <header>
-        <h1><?php echo $page->title; ?></h1>
+        <h1><?php echo get_event_page_title($categories); ?></h1>
     </header>
     <div class="section-content">
         <?php
