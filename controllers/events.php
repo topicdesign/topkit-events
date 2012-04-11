@@ -95,8 +95,8 @@ class Events extends Public_Controller {
         }
         $data['event'] = $event;
 
-        $this->template
-            ->title($event->title, 'Events', config_item('site_title')) 
+        $this->document
+            ->title(array($event->title, 'Events', config_item('site_title'))) 
             ->build('events/event_view.php', $data);
     }
 
@@ -180,8 +180,8 @@ class Events extends Public_Controller {
             'events' => $result->events
         );
         // set title from prepared segments
-        call_user_func_array(array($this->template, 'title'), $title_segments);
-        $this->template
+        call_user_func_array(array($this->document, 'title'), $title_segments);
+        $this->document
             //->title($title_segments)
             ->build('events/events_index.php', $data);
     }
@@ -231,8 +231,8 @@ class Events extends Public_Controller {
             'cal_data'  => $cal_data,
             'date'      => $month
         );
-        $this->template
-            ->title($month->format('F, Y'), 'Events', config_item('site_title'))
+        $this->document
+            ->title(array($month->format('F, Y'), 'Events', config_item('site_title')))
             ->build('events/calendar', $data);
     }
 
