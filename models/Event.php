@@ -75,6 +75,22 @@ class Event extends ActiveRecord\Model {
     // Public Methods
     // --------------------------------------------------------------------
 
+
+    /**
+     * check if published_at is in the past
+     *
+     * @access  public
+     * @param   void
+     *
+     * @return  bool
+     **/
+    public function is_published()
+    {
+       return ($this->published_at && $this->published_at <= date_create());
+    }
+
+    // --------------------------------------------------------------------
+    
     /**
      * get a formated published date in the site timezone
      *
@@ -153,7 +169,7 @@ class Event extends ActiveRecord\Model {
             array_unshift($args, $method);
             return call_user_func_array(array('self', 'limit_by_datetime'), $args);
         }
-        return parent::__call($method, $args);
+        return parent::__callStatic($method, $args);
     }
 
     // --------------------------------------------------------------------
