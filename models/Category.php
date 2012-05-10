@@ -34,7 +34,7 @@ class Category extends \ActiveRecord\Model
     );
 
     static $has_many = array(
-        array('articles'),
+        array('events'),
         array(
             'children',
             'class_name' => 'Event\Category',

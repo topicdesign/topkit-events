@@ -12,6 +12,21 @@ class Migration_events_init extends CI_Migration
      **/
     public function up()
     {
+        $this->add_events();
+        $this->add_categories();
+    }
+    
+    // --------------------------------------------------------------------
+    
+    /**
+     * add_events
+     *
+     * @access  public 
+     * 
+     * @return void
+     **/
+    public function add_events()
+    {   
         $this->dbforge->add_field(array(
             'id'    => array(
                 'type'          => 'INT',
@@ -26,6 +41,12 @@ class Migration_events_init extends CI_Migration
             'slug' => array(
                 'type'          => 'VARCHAR',
                 'constraint'    => '120',
+            ),
+            'category_id' => array(
+                'type'              => 'INT',
+                'constraint'        => '11',
+                'unsigned'          => TRUE,
+                'null'              => TRUE
             ),
             'content'   => array(
                 'type'          => 'TEXT',
@@ -54,6 +75,40 @@ class Migration_events_init extends CI_Migration
         $this->dbforge->add_key('id', TRUE);
         $this->dbforge->create_table('events');
     }
+    
+    // --------------------------------------------------------------------
+    
+    /**
+     * add_categories
+     *
+     * @access  public 
+     * 
+     * @return void
+     **/
+    public function add_categories()
+    {   
+        $this->dbforge->add_field(array(
+            'id' => array(
+                'type'              => 'INT',
+                'constraint'        => '11',
+                'unsigned'          => TRUE,
+                'auto_increment'    => TRUE
+            ),
+            'category' => array(
+                'type'              => 'VARCHAR',
+                'constraint'        => '50',
+                'null'              => FALSE,
+            ),
+            'parent_category_id' => array(
+                'type'              => 'INT',
+                'constraint'        => '11',
+                'unsigned'          => TRUE,
+                'null'              => TRUE,
+            ),
+        ));
+        $this->dbforge->add_key('id',TRUE);
+        $this->dbforge->create_table('event_categories');
+    }
 
     // --------------------------------------------------------------------
 
@@ -68,6 +123,7 @@ class Migration_events_init extends CI_Migration
     public function down()
     {
         $this->dbforge->drop_table('events');
+        $this->dbforge->drop_table('event_categories');
     }
 }
 
