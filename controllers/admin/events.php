@@ -89,7 +89,7 @@ class Events extends Admin_Controller {
                 set_status('error', $e);
             }
             $data['event'] = $event;
-            $data['categories'] = \Event\Category::all();
+            //$data['categories'] = \Event\Category::all();
             $this->document->build('events/admin/event_edit.php', $data);
         }
         else
