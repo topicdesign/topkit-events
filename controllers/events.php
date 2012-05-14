@@ -61,9 +61,9 @@ class Events extends Public_Controller {
         }
         //check for category
         $categories = array();
-        if ( ! is_numeric($params[0]) && $params[0] != 'index') 
+        if ( ! is_numeric($params[0]) && $params[0] != 'index')
         {
-            $categories[] = array_shift($params); 
+            $categories[] = array_shift($params);
         }
         // clear params if default method call
         if ( ! empty($params) && $params[0] == 'index')
@@ -102,8 +102,8 @@ class Events extends Public_Controller {
         $data['event'] = $event;
 
         $this->document
-            ->title(array($event->title, 'Events', config_item('site_title'))) 
-            ->build('events/event_view.php', $data);
+            ->title(array($event->title, 'Events', config_item('site_title')))
+            ->build('events/event_view', $data);
     }
 
     // --------------------------------------------------------------------
@@ -111,12 +111,12 @@ class Events extends Public_Controller {
     /**
      * categories
      *
-     * @access  public 
-     * 
+     * @access  public
+     *
      * @return void
      **/
     public function categories()
-    {   
+    {
         $params = $this->uri->segment_array();
         array_shift($params);
         $page = 1;
@@ -149,7 +149,7 @@ class Events extends Public_Controller {
     {
         $TZ = new DateTimeZone(config_item('site_timezone'));
         // set date limits based on params
-        $title_segments = array('Events', config_item('site_title')); 
+        $title_segments = array('Events', config_item('site_title'));
         switch (count($dates))
         {
             case 1:
@@ -158,7 +158,7 @@ class Events extends Public_Controller {
                 $start = date_create(implode('-', $dates), $TZ);
                 $end = clone $start;
                 $end->modify('+1 year');
-                
+
                 array_unshift($title_segments, $start->format('Y'));
                 break;
             case 2:
@@ -184,7 +184,7 @@ class Events extends Public_Controller {
                 $title = NULL;
                 break;
         }
-        // get a page of articles 
+        // get a page of articles
         $per_page = config_item('per_page');
         $config = array(
             'start' => $start,
@@ -213,11 +213,11 @@ class Events extends Public_Controller {
         // output the index
         $data = array(
             'events' => $result->events,
-            'categories' => $categories                
+            'categories' => $categories
         );
         // set title from prepared segments
         call_user_func_array(array($this->document, 'title'), $title_segments);
-        $this->document->build('events/events_index.php', $data);
+        $this->document->build('events/events_index', $data);
     }
 
     // --------------------------------------------------------------------

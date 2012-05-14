@@ -32,7 +32,7 @@
                 <div class="control-group">
                     <label for="event-form-content" class="control-label textarea"><?php echo lang('event-field-content'); ?></label>
                     <div class="controls">
-                        <?php $this->load->view('wysihtml5/toolbar_full'); ?>
+                        <?php $this->document->view('wysihtml5/toolbar_full'); ?>
                         <textarea id="event-form-content" name="content"
                             rows="16" cols="40"
                             data-role="editor"

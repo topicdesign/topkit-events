@@ -90,7 +90,7 @@ class Events extends Admin_Controller {
             }
             $data['event'] = $event;
             //$data['categories'] = \Event\Category::all();
-            $this->document->build('events/admin/event_edit.php', $data);
+            $this->document->build('events/admin/event_edit', $data);
         }
         else
         {
