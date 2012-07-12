@@ -28,7 +28,7 @@ class Event extends ActiveRecord\Model {
     static $belongs_to = array(
         array(
             'category',
-            'class_name' => 'Event\Category'
+            'class_name' => 'Category'
         )
     );
     
